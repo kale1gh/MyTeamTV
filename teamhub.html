@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MyTeamTV | Team Hub</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .hubHead{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .hubTitle{
+      display:flex; flex-direction:column; gap:6px;
+    }
+    .hubTitle .name{
+      font-size:34px; font-weight:1000; line-height:1.05;
+    }
+    .hubTitle .desc{color:var(--muted); font-size:13px; max-width:70ch;}
+    .hubControls{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    select{
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight:900;
+      outline:none;
+    }
+    select:focus{border-color: rgba(124,58,237,.55);}
+
+    .hubGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width: 900px){ .hubGrid{grid-template-columns:1fr;} }
+
+    .chatBox{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .messages{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      padding:10px;
+      min-height: 220px;
+      max-height: 260px;
+      overflow:auto;
+    }
+    .msg{
+      padding:10px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+      margin-bottom:8px;
+    }
+    .msg b{font-weight:1000}
+    .msg .meta{font-size:12px; color:var(--muted); margin-top:3px}
+
+    .chatForm{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .chatForm input{
+      flex:1;
+      min-width: 220px;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      outline:none;
+      font-weight:700;
+    }
+    .chatForm input:focus{border-color: rgba(124,58,237,.55);}
+
+    .pollOpt{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 16px;
+      padding:10px;
+      margin-top:10px;
+    }
+    .barWrap{
+      height:10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      margin-top:8px;
+    }
+    .bar{
+      height:100%;
+      width:40%;
+      background: linear-gradient(90deg, rgba(124,58,237,.90), rgba(59,130,246,.75));
+    }
+
+    .reactRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+    .react{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      font-weight:900;
+      cursor:pointer;
+      transition:.12s transform,.12s background;
+      user-select:none;
+    }
+    .react:hover{transform: translateY(-1px); background: rgba(255,255,255,.08);}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+  <div class="brand">
+    <div class="logo">MT</div>
+    <div>MyTeamTV</div>
+  </div>
+
+  <div class="nav">
+    <a data-nav href="index.html">HOME</a>
+    <a data-nav href="pricing.html">PRICING</a>
+    <a data-nav href="schedule.html">SCHEDULE</a>
+    <a data-nav href="teamhub.html">TEAM HUB</a>
+    <a data-nav href="dashboard.html">DASHBOARD</a>
+    <a data-nav href="about.html">ABOUT</a>
+    <a data-nav href="contact.html">CONTACT</a>
+  </div>
+
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <button id="pitchToggle" class="btn">Pitch Mode: OFF</button>
+    <div id="who" class="small">Not signed in</div>
+    <button id="authBtn" class="btn" style="display:none;">Sign In</button>
+    <button id="logoutBtn" class="btn danger" style="display:none;">Log Out</button>
+  </div>
+</div>
+
+<div class="pitchBanner">
+  <b>Investor Pitch View</b>
+  <div class="small">Problem → Solution → Business Model → Differentiation → Go-To-Market</div>
+</div>
+
+    <div class="card">
+      <div class="strip"></div>
+      <div class="section">
+        <div class="tag glow">Team Hub • chat + polls + reactions</div>
+
+        <div class="hubHead">
+          <div class="hubTitle fanOnly">
+  <div class="name glow" id="hubTeam">Team Hub</div>
+  <div class="desc">
+    Connect with other fans in real time through live chat, polls, and reactions
+    while watching games together.
+  </div>
+</div>
+
+<div class="hubTitle pitchOnly">
+  <div class="name glow">Product Experience: Team Hub</div>
+  <div class="desc">
+    The Team Hub builds community around individual teams through live chat, polls,
+    and reactions. This feature increases emotional attachment, repeat usage,
+    and long-term subscriber retention.
+  </div>
+
+  <div class="two" style="margin-top:12px;">
+    <div class="panel">
+      <h3>USER VALUE</h3>
+      <ul class="small" style="margin:0; padding-left:18px;">
+        <li>Shared viewing experience with other fans</li>
+        <li>Real-time interaction during games</li>
+        <li>Stronger sense of team identity</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h3>BUSINESS VALUE</h3>
+      <ul class="small" style="margin:0; padding-left:18px;">
+        <li>Reduces churn through community engagement</li>
+        <li>Increases time spent on platform</li>
+        <li>Creates sponsorship and branded content opportunities</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+          <div class="hubControls">
+            <select id="teamSelect"></select>
+            <a class="btn" href="schedule.html">Back to Schedule</a>
+            <button class="btn primary" id="customizeBtn">Customize Plan</button>
+          </div>
+        </div>
+
+        <div class="hubGrid">
+          <!-- CHAT -->
+          <div class="panel chatBox">
+            <h3>LIVE CHAT</h3>
+            <div id="messages" class="messages"></div>
+
+            <form id="chatForm" class="chatForm">
+              <input id="chatInput" placeholder="Type a message..." />
+              <button class="btn primary" type="submit">Send</button>
+            </form>
+
+            <div class="small">Tip: Messages are saved locally (demo). Refreshing keeps the chat.</div>
+          </div>
+
+          <!-- POLLS + REACTIONS -->
+          <div class="panel">
+            <h3>GAME POLL</h3>
+            <div class="small">What should the coach do on 4th down? (Demo poll)</div>
+
+            <div class="pollOpt">
+              <div>
+                <b>Go for it</b>
+                <div class="barWrap"><div class="bar" id="barGo"></div></div>
+              </div>
+              <button class="btn" id="voteGo">Vote</button>
+            </div>
+
+            <div class="pollOpt">
+              <div>
+                <b>Punt</b>
+                <div class="barWrap"><div class="bar" id="barPunt"></div></div>
+              </div>
+              <button class="btn" id="votePunt">Vote</button>
+            </div>
+
+            <div class="pollOpt">
+              <div>
+                <b>Kick FG</b>
+                <div class="barWrap"><div class="bar" id="barFG"></div></div>
+              </div>
+              <button class="btn" id="voteFG">Vote</button>
+            </div>
+
+            <div class="div"></div>
+            <h3>REACTIONS</h3>
+            <div class="small">Tap to hype up the chat (demo counter).</div>
+            <div class="reactRow">
+              <div class="react" data-emoji="🔥">🔥 <span id="rFire">0</span></div>
+              <div class="react" data-emoji="😤">😤 <span id="rMad">0</span></div>
+              <div class="react" data-emoji="😂">😂 <span id="rLol">0</span></div>
+              <div class="react" data-emoji="👏">👏 <span id="rClap">0</span></div>
+            </div>
+
+            <div class="div"></div>
+            <h3>WATCH PARTY</h3>
+            <div class="small">Invite friends to watch together (demo).</div>
+            <button class="btn primary" id="partyBtn">Create Invite Link</button>
+            <div id="partyOut" class="small" style="margin-top:10px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>© <span id="yr"></span> MyTeamTV</div>
+      <div class="small">Team Hub is demo-only.</div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>SIGN IN</b>
+        <button id="closeLogin" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <form id="loginForm">
+          <div class="field">
+            <label>NAME</label>
+            <input id="loginName" placeholder="Karli" autocomplete="name"/>
+          </div>
+          <div class="field">
+            <label>EMAIL</label>
+            <input id="loginEmail" placeholder="you@email.com" autocomplete="email"/>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="submit">Continue</button>
+          </div>
+          <div class="small" style="margin-top:10px;">Demo sign-in. Stores data in your browser only.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONBOARD MODAL -->
+  <div id="onboardModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>BUILD YOUR PLAN</b>
+        <button id="closeOnboard" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <div class="two">
+          <div class="panel">
+            <h3>SPORTS</h3>
+            <div id="sportPills" class="pillrow"></div>
+          </div>
+          <div class="panel">
+            <h3>TEAMS</h3>
+            <div id="teamPills" class="pillrow"></div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel">
+          <div class="tag" id="tierTag">Tier: —</div>
+          <div style="height:10px"></div>
+
+          <div class="priceBox">
+            <div class="small">Estimated monthly price</div>
+            <div class="bigPrice" id="price">$0.00</div>
+            <div class="small" id="priceNote">Select at least 1 sport to start.</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="row"><span>Sports selected</span><span id="sportCount">0</span></div>
+          <div class="row"><span>Teams selected</span><span id="teamCount">0</span></div>
+          <div class="div"></div>
+          <div id="tierDetails" class="small"></div>
+
+          <div class="actions">
+            <button id="savePicks" class="btn primary" type="button">Save Plan</button>
+            <a class="btn" href="dashboard.html">Go to Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("yr").textContent = new Date().getFullYear();
+
+    document.getElementById("authBtn").addEventListener("click", ()=> {
+      document.getElementById("loginModal").style.display = "flex";
+    });
+
+    // Helpers
+    function getUser(){ return JSON.parse(localStorage.getItem("mtv_user") || "null"); }
+    function getPicks(){ return JSON.parse(localStorage.getItem("mtv_picks") || "{\"sports\":[],\"teams\":[]}"); }
+
+    // Team selection: prefer one of your selected teams; fallback to defaults
+    const DEFAULT_TEAMS = [
+      "Dallas Cowboys","Los Angeles Lakers","Houston Astros","Texas A&M Aggies","FC Barcelona"
+    ];
+
+    const picks = getPicks();
+    const teamsFromPlan = (picks.teams || []);
+    const teamList = teamsFromPlan.length ? teamsFromPlan : DEFAULT_TEAMS;
+
+    const teamSelect = document.getElementById("teamSelect");
+    teamList.forEach(t=>{
+      const opt = document.createElement("option");
+      opt.value = t;
+      opt.textContent = t;
+      teamSelect.appendChild(opt);
+    });
+
+    const hubTeam = document.getElementById("hubTeam");
+
+    // Chat storage key per team
+    function key(team){ return `mtv_chat_${team}`; }
+
+    function renderChat(team){
+      hubTeam.textContent = `${team} Hub`;
+      const wrap = document.getElementById("messages");
+      const msgs = JSON.parse(localStorage.getItem(key(team)) || "[]");
+      wrap.innerHTML = "";
+      msgs.slice(0, 40).reverse().forEach(m=>{
+        const el = document.createElement("div");
+        el.className = "msg";
+        el.innerHTML = `<b>${m.name}</b>: ${m.text}<div class="meta">${new Date(m.ts).toLocaleString()}</div>`;
+        wrap.appendChild(el);
+      });
+      wrap.scrollTop = wrap.scrollHeight;
+    }
+
+    // Initial team
+    renderChat(teamSelect.value);
+
+    teamSelect.addEventListener("change", ()=>{
+      renderChat(teamSelect.value);
+    });
+
+    // Send message
+    document.getElementById("chatForm").addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const input = document.getElementById("chatInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const user = getUser();
+      const name = user?.name || "Fan";
+
+      const team = teamSelect.value;
+      const msgs = JSON.parse(localStorage.getItem(key(team)) || "[]");
+      msgs.push({ name, text, ts: new Date().toISOString() });
+      localStorage.setItem(key(team), JSON.stringify(msgs));
+
+      input.value = "";
+      renderChat(team);
+    });
+
+    // Demo poll state (saved per team)
+    function pollKey(team){ return `mtv_poll_${team}`; }
+    function getPoll(team){
+      return JSON.parse(localStorage.getItem(pollKey(team)) || "{\"go\":4,\"punt\":3,\"fg\":2}");
+    }
+    function setPoll(team, poll){
+      localStorage.setItem(pollKey(team), JSON.stringify(poll));
+    }
+
+    function renderPoll(){
+      const team = teamSelect.value;
+      const p = getPoll(team);
+      const total = p.go + p.punt + p.fg;
+
+      const goPct = total ? (p.go/total)*100 : 0;
+      const puntPct = total ? (p.punt/total)*100 : 0;
+      const fgPct = total ? (p.fg/total)*100 : 0;
+
+      document.getElementById("barGo").style.width = Math.max(6, goPct) + "%";
+      document.getElementById("barPunt").style.width = Math.max(6, puntPct) + "%";
+      document.getElementById("barFG").style.width = Math.max(6, fgPct) + "%";
+    }
+
+    function vote(which){
+      const team = teamSelect.value;
+      const p = getPoll(team);
+      p[which] += 1;
+      setPoll(team, p);
+      renderPoll();
+    }
+
+    document.getElementById("voteGo").addEventListener("click", ()=>vote("go"));
+    document.getElementById("votePunt").addEventListener("click", ()=>vote("punt"));
+    document.getElementById("voteFG").addEventListener("click", ()=>vote("fg"));
+
+    teamSelect.addEventListener("change", renderPoll);
+    renderPoll();
+
+    // Reactions (saved per team)
+    function reactKey(team){ return `mtv_react_${team}`; }
+    function getReacts(team){
+      return JSON.parse(localStorage.getItem(reactKey(team)) || "{\"fire\":0,\"mad\":0,\"lol\":0,\"clap\":0}");
+    }
+    function setReacts(team, r){ localStorage.setItem(reactKey(team), JSON.stringify(r)); }
+
+    function renderReacts(){
+      const team = teamSelect.value;
+      const r = getReacts(team);
+      document.getElementById("rFire").textContent = r.fire;
+      document.getElementById("rMad").textContent = r.mad;
+      document.getElementById("rLol").textContent = r.lol;
+      document.getElementById("rClap").textContent = r.clap;
+    }
+
+    document.querySelectorAll(".react").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const team = teamSelect.value;
+        const r = getReacts(team);
+        const emoji = btn.getAttribute("data-emoji");
+
+        if (emoji === "🔥") r.fire++;
+        if (emoji === "😤") r.mad++;
+        if (emoji === "😂") r.lol++;
+        if (emoji === "👏") r.clap++;
+
+        setReacts(team, r);
+        renderReacts();
+
+        // also auto-post a tiny reaction message
+        const user = getUser();
+        const name = user?.name || "Fan";
+        const msgs = JSON.parse(localStorage.getItem(key(team)) || "[]");
+        msgs.push({ name, text: emoji, ts: new Date().toISOString() });
+        localStorage.setItem(key(team), JSON.stringify(msgs));
+        renderChat(team);
+      });
+    });
+
+    teamSelect.addEventListener("change", renderReacts);
+    renderReacts();
+
+    // Watch party invite (demo)
+    document.getElementById("partyBtn").addEventListener("click", ()=>{
+      const team = teamSelect.value;
+      const code = Math.random().toString(16).slice(2, 8).toUpperCase();
+      document.getElementById("partyOut").textContent = `Invite code for ${team}: ${code} (demo)`;
+    });
+
+    // Customize plan button: opens onboarding if signed in, else opens login
+    document.getElementById("customizeBtn").addEventListener("click", ()=>{
+      const user = getUser();
+      if (!user){
+        document.getElementById("loginModal").style.display = "flex";
+        return;
+      }
+      document.getElementById("onboardModal").style.display = "flex";
+      // app.js will mount onboarding
+    });
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>

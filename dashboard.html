@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MyTeamTV | Dashboard</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* Dashboard-only extras */
+    .tiles{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width: 1000px){ .tiles{grid-template-columns: repeat(2,1fr);} }
+    @media (max-width: 600px){ .tiles{grid-template-columns: 1fr;} }
+
+    .tile{
+      padding:14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+      transition:.14s transform, .14s border-color, .14s background;
+    }
+    .tile:hover{
+      transform: translateY(-2px);
+      border-color: rgba(124,58,237,.45);
+      background: linear-gradient(180deg, rgba(124,58,237,.18), rgba(255,255,255,.03));
+    }
+    .tile b{display:block; letter-spacing:.3px;}
+    .tile .small{margin-top:6px}
+    .tile:after{
+      content:"";
+      position:absolute;
+      right:-30px; top:-30px;
+      width:120px; height:120px;
+      background: radial-gradient(circle at 30% 30%, rgba(34,197,94,.35), transparent 55%);
+      transform: rotate(18deg);
+    }
+
+    .contentGrid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width: 1000px){ .contentGrid{grid-template-columns: repeat(2,1fr);} }
+    @media (max-width: 600px){ .contentGrid{grid-template-columns: 1fr;} }
+
+    .thumb{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+      box-shadow: 0 16px 40px rgba(0,0,0,.40);
+      transition:.14s transform, .14s border-color;
+    }
+    .thumb:hover{transform: translateY(-2px); border-color: rgba(59,130,246,.45);}
+    .thumb .top{
+      height:92px;
+      background:
+        linear-gradient(135deg, rgba(124,58,237,.35), rgba(59,130,246,.25)),
+        radial-gradient(120px 90px at 20% 30%, rgba(34,197,94,.25), transparent 60%);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      position:relative;
+    }
+    .badge{
+      position:absolute;
+      left:12px; bottom:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px; font-weight:900;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      backdrop-filter: blur(6px);
+    }
+    .thumb .body{padding:12px}
+    .thumb .title{font-weight:1000; margin-bottom:4px}
+    .thumb .meta{color:var(--muted); font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+   <div class="topbar">
+  <div class="brand">
+    <div class="logo">MT</div>
+    <div>MyTeamTV</div>
+  </div>
+
+  <div class="nav">
+    <a data-nav href="index.html">HOME</a>
+    <a data-nav href="pricing.html">PRICING</a>
+    <a data-nav href="schedule.html">SCHEDULE</a>
+    <a data-nav href="teamhub.html">TEAM HUB</a>
+    <a data-nav href="dashboard.html">DASHBOARD</a>
+    <a data-nav href="about.html">ABOUT</a>
+    <a data-nav href="contact.html">CONTACT</a>
+  </div>
+
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <button id="pitchToggle" class="btn">Pitch Mode: OFF</button>
+    <div id="who" class="small">Not signed in</div>
+    <button id="authBtn" class="btn" style="display:none;">Sign In</button>
+    <button id="logoutBtn" class="btn danger" style="display:none;">Log Out</button>
+  </div>
+</div>
+
+<div class="pitchBanner">
+  <b>Investor Pitch View</b>
+  <div class="small">Problem → Solution → Business Model → Differentiation → Go-To-Market</div>
+</div>
+
+
+    <div class="grid">
+      <div class="card">
+        <div class="strip"></div>
+        <div class="section">
+          <div class="tag glow">Dashboard • 2K-style tiles</div>
+         <div class="fanOnly">
+  <h1 class="h1 glow">Your Home Court</h1>
+  <p class="sub">
+    This is your personalized hub: quick actions, your plan, and a demo content wall of games,
+    highlights, and replays.
+  </p>
+</div>
+
+<div class="pitchOnly">
+  <h1 class="h1 glow">Product Experience: Dashboard</h1>
+  <p class="sub">
+    The dashboard acts as the user’s central control hub, prioritizing selected teams and sports.
+    It increases engagement by surfacing live games, schedules, and community features in one place.
+  </p>
+
+  <div class="two">
+    <div class="panel">
+      <h3>USER VALUE</h3>
+      <ul class="small" style="margin:0; padding-left:18px;">
+        <li>Faster access to live content</li>
+        <li>Personalized sorting by teams</li>
+        <li>Reduced friction vs. switching apps</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h3>BUSINESS VALUE</h3>
+      <ul class="small" style="margin:0; padding-left:18px;">
+        <li>Higher session frequency</li>
+        <li>Increased feature discovery</li>
+        <li>Clear upgrade paths to premium tiers</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+          <div class="tiles">
+            <div class="tile" id="tileLive">
+              <b>LIVE NOW</b>
+              <div class="small">Jump into a game instantly</div>
+            </div>
+            <div class="tile" id="tileSchedule">
+              <b>TODAY’S SCHEDULE</b>
+              <div class="small">Your selected sports first</div>
+            </div>
+            <div class="tile" id="tileHubs">
+              <b>TEAM HUBS</b>
+              <div class="small">Chat + polls + reactions</div>
+            </div>
+            <div class="tile" id="tileCustomize">
+              <b>CUSTOMIZE PLAN</b>
+              <div class="small">Add teams/sports anytime</div>
+            </div>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <div class="panel">
+            <h3>DEMO CONTENT WALL</h3>
+            <div class="small">Click any card to simulate playing content.</div>
+
+            <div class="contentGrid" id="contentGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="strip"></div>
+        <div class="section">
+          <b style="letter-spacing:.3px;">YOUR PLAN</b>
+          <p class="small" style="margin:8px 0 14px;">
+            Build your plan to unlock personalized sorting.
+          </p>
+
+          <div class="panel">
+            <div class="row"><span class="small">Tier</span><span id="miniTier" style="font-weight:1000;">—</span></div>
+            <div class="row"><span class="small">Est. Price</span><span id="miniPrice" style="font-weight:1000;">$0.00</span></div>
+            <div class="div"></div>
+            <div id="miniList" class="small">No sports yet • No teams</div>
+            <div style="height:10px"></div>
+            <button class="btn primary" id="quickStart">Build / Edit Plan</button>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel">
+            <h3>FEATURES YOU’D ADD NEXT</h3>
+            <ul class="small" style="margin:0; padding-left:18px;">
+              <li>Multi-game view (split screen)</li>
+              <li>Condensed games + auto highlights</li>
+              <li>Fan watch parties with invites</li>
+            </ul>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="small">*All “content” is simulated for a demo UI.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>© <span id="yr"></span> MyTeamTV</div>
+      <div class="small">Demo dashboard experience.</div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>SIGN IN</b>
+        <button id="closeLogin" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <form id="loginForm">
+          <div class="field">
+            <label>NAME</label>
+            <input id="loginName" placeholder="Karli" autocomplete="name"/>
+          </div>
+          <div class="field">
+            <label>EMAIL</label>
+            <input id="loginEmail" placeholder="you@email.com" autocomplete="email"/>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="submit">Continue</button>
+          </div>
+          <div class="small" style="margin-top:10px;">Demo sign-in. Stores data in your browser only.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONBOARD MODAL -->
+  <div id="onboardModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>BUILD YOUR PLAN</b>
+        <button id="closeOnboard" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <div class="two">
+          <div class="panel">
+            <h3>SPORTS</h3>
+            <div id="sportPills" class="pillrow"></div>
+          </div>
+          <div class="panel">
+            <h3>TEAMS</h3>
+            <div id="teamPills" class="pillrow"></div>
+            <div class="small" style="margin-top:8px;">In a real version, teams filter by league rights.</div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel">
+          <div class="tag" id="tierTag">Tier: —</div>
+          <div style="height:10px"></div>
+
+          <div class="priceBox">
+            <div class="small">Estimated monthly price</div>
+            <div class="bigPrice" id="price">$0.00</div>
+            <div class="small" id="priceNote">Select at least 1 sport to start.</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="row"><span>Sports selected</span><span id="sportCount">0</span></div>
+          <div class="row"><span>Teams selected</span><span id="teamCount">0</span></div>
+          <div class="div"></div>
+          <div id="tierDetails" class="small"></div>
+
+          <div class="actions">
+            <button id="savePicks" class="btn primary" type="button">Save Plan</button>
+            <a class="btn" href="pricing.html">Compare Pricing</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("yr").textContent = new Date().getFullYear();
+
+    document.getElementById("authBtn").addEventListener("click", ()=> {
+      document.getElementById("loginModal").style.display = "flex";
+    });
+
+    // Fake content cards (you can swap titles to your favorite sports)
+    const content = [
+      { type:"LIVE", title:"Rivalry Game (Demo)", meta:"Watch now • HD", badge:"LIVE NOW" },
+      { type:"REPLAY", title:"Top Plays: Week Recap", meta:"8 min • Highlights", badge:"HIGHLIGHTS" },
+      { type:"LIVE", title:"Prime Matchup (Demo)", meta:"Start stream • 4K", badge:"FEATURED" },
+      { type:"REPLAY", title:"Full Game Replay", meta:"2h 18m • Replay", badge:"REPLAY" },
+      { type:"STUDIO", title:"Postgame Show", meta:"Live analysis • Fan polls", badge:"STUDIO" },
+      { type:"CLIPS", title:"Top 10 Dunks/Goals", meta:"5 min • Clips", badge:"CLIPS" },
+      { type:"LIVE", title:"Late Game (Demo)", meta:"Close finish • Live", badge:"LIVE" },
+      { type:"REPLAY", title:"Classic Game Vault", meta:"Throwback • Full replay", badge:"VAULT" }
+    ];
+
+    const grid = document.getElementById("contentGrid");
+    content.forEach(item=>{
+      const card = document.createElement("div");
+      card.className = "thumb";
+      card.innerHTML = `
+        <div class="top">
+          <div class="badge">${item.badge}</div>
+        </div>
+        <div class="body">
+          <div class="title">${item.title}</div>
+          <div class="meta">${item.meta}</div>
+        </div>
+      `;
+      card.addEventListener("click", ()=>{
+        alert(`▶️ Playing: ${item.title}\n\n(Demo only — simulate stream player here.)`);
+      });
+      grid.appendChild(card);
+    });
+
+    // Tile actions
+    document.getElementById("tileLive").addEventListener("click", ()=>alert("LIVE NOW: Demo tile — would open the live player."));
+    document.getElementById("tileSchedule").addEventListener("click", ()=>alert("TODAY’S SCHEDULE: Demo tile — would show your teams first."));
+    document.getElementById("tileHubs").addEventListener("click", ()=>alert("TEAM HUBS: Demo tile — would open chat + polls."));
+    document.getElementById("tileCustomize").addEventListener("click", ()=>document.getElementById("quickStart").click());
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

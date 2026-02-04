@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MyTeamTV | All Your Sports. One Place.</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+    <div class="brand">
+    <div class="logo">MT</div>
+    <div>MyTeamTV</div>
+  </div>
+    <div class="pitchBanner">
+    <b>Investor Pitch View</b>
+    <div class="small">Problem → Solution → Business Model → Differentiation → Go-To-Market</div>
+  </div>
+
+  <div class="nav">
+    <a data-nav href="index.html">HOME</a>
+    <a data-nav href="pricing.html">PRICING</a>
+    <a data-nav href="schedule.html">SCHEDULE</a>
+    <a data-nav href="teamhub.html">TEAM HUB</a>
+    <a data-nav href="dashboard.html">DASHBOARD</a>
+    <a data-nav href="about.html">ABOUT</a>
+    <a data-nav href="contact.html">CONTACT</a>
+  </div>
+
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <button id="pitchToggle" class="btn">Pitch Mode: OFF</button>
+    <div id="who" class="small">Not signed in</div>
+    <button id="authBtn" class="btn" style="display:none;">Sign In</button>
+    <button id="logoutBtn" class="btn danger" style="display:none;">Log Out</button>
+  </div>
+</div>
+    <div class="grid">
+      <div class="card">
+        <div class="strip"></div>
+        <div class="section">
+          <div class="tag glow">2K-Style Fan Hub • Demo Concept</div>
+          <div class="fanOnly">
+  <h1 class="h1 glow">Pick your teams.<br/>Stream everything.</h1>
+  <p class="sub">
+    MyTeamTV is the fan-first streaming hub that replaces subscription chaos.
+    Choose the sports and teams you care about — we build your plan.
+  </p>
+</div>
+
+<div class="pitchOnly">
+  <h1 class="h1 glow">MyTeamTV</h1>
+  <p class="sub">
+    <b>Problem:</b> Sports streaming is fragmented across multiple subscriptions.<br/>
+    <b>Solution:</b> One hub + customizable access by sport/team with tiered pricing.<br/>
+    <b>Why now:</b> Fans are shifting to streaming but hate the “pay everywhere” experience.
+  </p>
+</div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button id="quickStart" class="btn primary">Quick Start (Build Plan)</button>
+            <a class="btn" href="pricing.html">See Pricing</a>
+          </div>
+
+          <div class="kpi">
+            <div class="pill"><b>Team Hubs</b><div class="small">Chat + polls during games</div></div>
+            <div class="pill"><b>Watch Parties</b><div class="small">Stream + react together</div></div>
+            <div class="pill"><b>Student Deals</b><div class="small">Built for college fans</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="strip"></div>
+        <div class="section">
+          <b style="letter-spacing:.3px;">YOUR PLAN (Preview)</b>
+          <p class="small" style="margin:8px 0 14px;">
+            Sign in, select sports + teams, and your tier updates automatically.
+          </p>
+
+          <div class="panel">
+            <div class="row"><span class="small">Tier</span><span id="miniTier" style="font-weight:1000;">—</span></div>
+            <div class="row"><span class="small">Est. Price</span><span id="miniPrice" style="font-weight:1000;">$0.00</span></div>
+            <div class="div"></div>
+            <div id="miniList" class="small">No sports yet • No teams</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="panel">
+            <b>Featured Goals</b>
+            <ul class="small" style="margin:10px 0 0; padding-left:18px;">
+              <li>Centralized streaming experience</li>
+              <li>Fan community features</li>
+              <li>Tiered, customizable pricing</li>
+            </ul>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="small">*Demo UI for a class project. Real launch depends on media rights.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>© <span id="yr"></span> MyTeamTV</div>
+      <div>All names/logos are placeholders for a school project.</div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>SIGN IN</b>
+        <button id="closeLogin" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <form id="loginForm">
+          <div class="field">
+            <label>NAME</label>
+            <input id="loginName" placeholder="Karli" autocomplete="name"/>
+          </div>
+          <div class="field">
+            <label>EMAIL</label>
+            <input id="loginEmail" placeholder="you@email.com" autocomplete="email"/>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="submit">Continue</button>
+            <button class="btn" type="button" id="openLogin" style="display:none;"></button>
+          </div>
+          <div class="small" style="margin-top:10px;">Demo sign-in. Stores data in your browser only.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONBOARD MODAL -->
+  <div id="onboardModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>BUILD YOUR PLAN</b>
+        <button id="closeOnboard" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <div class="two">
+          <div class="panel">
+            <h3>SPORTS</h3>
+            <div id="sportPills" class="pillrow"></div>
+          </div>
+          <div class="panel">
+            <h3>TEAMS</h3>
+            <div id="teamPills" class="pillrow"></div>
+            <div class="small" style="margin-top:8px;">In a real version, teams filter by league rights.</div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel">
+          <div class="tag" id="tierTag">Tier: —</div>
+          <div style="height:10px"></div>
+
+          <div class="priceBox">
+            <div class="small">Estimated monthly price</div>
+            <div class="bigPrice" id="price">$0.00</div>
+            <div class="small" id="priceNote">Select at least 1 sport to start.</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="row"><span>Sports selected</span><span id="sportCount">0</span></div>
+          <div class="row"><span>Teams selected</span><span id="teamCount">0</span></div>
+          <div class="div"></div>
+          <div id="tierDetails" class="small"></div>
+
+          <div class="actions">
+            <button id="savePicks" class="btn primary" type="button">Save Plan</button>
+            <a class="btn" href="pricing.html">Compare Pricing</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("yr").textContent = new Date().getFullYear();
+    // Wire auth button to open modal
+    document.getElementById("authBtn").addEventListener("click", ()=> {
+      document.getElementById("loginModal").style.display = "flex";
+    });
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

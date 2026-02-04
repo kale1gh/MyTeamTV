@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MyTeamTV | Pricing</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+    <div class="brand">
+    <div class="logo">MT</div>
+    <div>MyTeamTV</div>
+  </div>
+    <div class="pitchBanner">
+    <b>Investor Pitch View</b>
+    <div class="small">Problem → Solution → Business Model → Differentiation → Go-To-Market</div>
+  </div>
+
+  <div class="nav">
+    <a data-nav href="index.html">HOME</a>
+    <a data-nav href="pricing.html">PRICING</a>
+    <a data-nav href="schedule.html">SCHEDULE</a>
+    <a data-nav href="teamhub.html">TEAM HUB</a>
+    <a data-nav href="dashboard.html">DASHBOARD</a>
+    <a data-nav href="about.html">ABOUT</a>
+    <a data-nav href="contact.html">CONTACT</a>
+  </div>
+
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <button id="pitchToggle" class="btn">Pitch Mode: OFF</button>
+    <div id="who" class="small">Not signed in</div>
+    <button id="authBtn" class="btn" style="display:none;">Sign In</button>
+    <button id="logoutBtn" class="btn danger" style="display:none;">Log Out</button>
+  </div>
+</div>
+
+
+    <div class="card">
+      <div class="strip"></div>
+      <div class="section">
+        <div class="tag glow">Pricing modeled to feel realistic</div>
+       <div class="fanOnly">
+  <h1 class="h1 glow">Choose your tier. Customize later.</h1>
+  <p class="sub">
+    Start small like a single-service subscription, or go Unlimited to replace the
+    “multiple apps” problem. Your plan price updates based on sports + teams you choose.
+  </p>
+</div>
+
+<div class="pitchOnly">
+  <h1 class="h1 glow">Pricing Strategy</h1>
+  <p class="sub">
+    <b>Goal:</b> Maximize adoption while capturing high-value fans.<br/>
+    <b>Approach:</b> Tiered pricing based on sports and teams selected.<br/>
+    <b>Outcome:</b> Predictable recurring revenue with natural upgrade paths.
+  </p>
+</div>
+
+
+        <div class="two">
+          <div class="panel">
+            <h3>BASIC FAN</h3>
+            <div class="bigPrice">$12.99</div>
+            <div class="small">1 sport • up to 2 teams</div>
+            <div class="div"></div>
+            <div class="small">Best for casual fans who follow one sport closely.</div>
+            <div style="height:10px"></div>
+            <button class="btn primary" data-open-onboard>Pick Sports/Teams</button>
+          </div>
+
+          <div class="panel">
+            <h3>TEAM PASS</h3>
+            <div class="bigPrice">$24.99</div>
+            <div class="small">2 sports • up to 5 teams</div>
+            <div class="div"></div>
+            <div class="small">Great for fans who watch multiple teams across two sports.</div>
+            <div style="height:10px"></div>
+            <button class="btn primary" data-open-onboard>Pick Sports/Teams</button>
+          </div>
+
+          <div class="panel">
+            <h3>ALL-STAR</h3>
+            <div class="bigPrice">$34.99</div>
+            <div class="small">up to 4 sports • up to 10 teams</div>
+            <div class="div"></div>
+            <div class="small">Built for fans who want more coverage without full Unlimited.</div>
+            <div style="height:10px"></div>
+            <button class="btn primary" data-open-onboard>Pick Sports/Teams</button>
+          </div>
+
+          <div class="panel">
+            <h3>UNLIMITED ACCESS</h3>
+            <div class="bigPrice">$44.99</div>
+            <div class="small">All sports + teams • premium features</div>
+            <div class="div"></div>
+            <div class="small">Replaces the “subscribe everywhere” experience.</div>
+            <div style="height:10px"></div>
+            <button class="btn primary" data-open-onboard>Go Unlimited</button>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="panel">
+          <b>Why tiered pricing works</b>
+          <ul class="small" style="margin:10px 0 0; padding-left:18px;">
+            <li>Lower entry cost for casual fans → more sign-ups (volume)</li>
+            <li>Upgrades happen naturally as users add teams/sports</li>
+            <li>Unlimited is a clear “bundle alternative” for power users</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>© <span id="yr"></span> MyTeamTV</div>
+      <div class="small">Demo pricing logic stored in browser only.</div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>SIGN IN</b>
+        <button id="closeLogin" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <form id="loginForm">
+          <div class="field">
+            <label>NAME</label>
+            <input id="loginName" placeholder="Karli" autocomplete="name"/>
+          </div>
+          <div class="field">
+            <label>EMAIL</label>
+            <input id="loginEmail" placeholder="you@email.com" autocomplete="email"/>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="submit">Continue</button>
+          </div>
+          <div class="small" style="margin-top:10px;">Demo sign-in. Stores data in your browser only.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONBOARD MODAL -->
+  <div id="onboardModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>BUILD YOUR PLAN</b>
+        <button id="closeOnboard" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <div class="two">
+          <div class="panel">
+            <h3>SPORTS</h3>
+            <div id="sportPills" class="pillrow"></div>
+          </div>
+          <div class="panel">
+            <h3>TEAMS</h3>
+            <div id="teamPills" class="pillrow"></div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel">
+          <div class="tag" id="tierTag">Tier: —</div>
+          <div style="height:10px"></div>
+
+          <div class="priceBox">
+            <div class="small">Estimated monthly price</div>
+            <div class="bigPrice" id="price">$0.00</div>
+            <div class="small" id="priceNote">Select at least 1 sport to start.</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="row"><span>Sports selected</span><span id="sportCount">0</span></div>
+          <div class="row"><span>Teams selected</span><span id="teamCount">0</span></div>
+          <div class="div"></div>
+          <div id="tierDetails" class="small"></div>
+
+          <div class="actions">
+            <button id="savePicks" class="btn primary" type="button">Save Plan</button>
+            <a class="btn" href="index.html">Back Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("yr").textContent = new Date().getFullYear();
+    document.getElementById("authBtn").addEventListener("click", ()=> {
+      document.getElementById("loginModal").style.display = "flex";
+    });
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

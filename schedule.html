@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MyTeamTV | Schedule</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .filters{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:10px;
+    }
+    select{
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight:900;
+      outline:none;
+    }
+    select:focus{border-color: rgba(124,58,237,.55);}
+    .gameList{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    .game{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+      padding:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .left{
+      display:flex; flex-direction:column; gap:3px;
+    }
+    .time{font-weight:1000; letter-spacing:.2px}
+    .match{color:#DDE6FF; font-weight:900}
+    .meta{color:var(--muted); font-size:12px}
+    .right{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+  <div class="brand">
+    <div class="logo">MT</div>
+    <div>MyTeamTV</div>
+  </div>
+
+  <div class="nav">
+    <a data-nav href="index.html">HOME</a>
+    <a data-nav href="pricing.html">PRICING</a>
+    <a data-nav href="schedule.html">SCHEDULE</a>
+    <a data-nav href="teamhub.html">TEAM HUB</a>
+    <a data-nav href="dashboard.html">DASHBOARD</a>
+    <a data-nav href="about.html">ABOUT</a>
+    <a data-nav href="contact.html">CONTACT</a>
+  </div>
+
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <button id="pitchToggle" class="btn">Pitch Mode: OFF</button>
+    <div id="who" class="small">Not signed in</div>
+    <button id="authBtn" class="btn" style="display:none;">Sign In</button>
+    <button id="logoutBtn" class="btn danger" style="display:none;">Log Out</button>
+  </div>
+</div>
+
+<div class="pitchBanner">
+  <b>Investor Pitch View</b>
+  <div class="small">Problem → Solution → Business Model → Differentiation → Go-To-Market</div>
+</div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="strip"></div>
+        <div class="section">
+          <div class="tag glow">Today’s schedule • demo filtering</div>
+         <div class="fanOnly">
+  <h1 class="h1 glow">Your Home Court</h1>
+  <p class="sub">
+    This is your personalized hub: quick actions, your plan, and a demo content wall of games,
+    highlights, and replays.
+  </p>
+</div>
+
+<div class="pitchOnly">
+  <h1 class="h1 glow">Product Experience: Dashboard</h1>
+  <p class="sub">
+    The dashboard acts as the user’s central control hub, prioritizing selected teams and sports.
+    It increases engagement by surfacing live games, schedules, and community features in one place.
+  </p>
+
+  <div class="two">
+    <div class="panel">
+      <h3>USER VALUE</h3>
+      <ul class="small" style="margin:0; padding-left:18px;">
+        <li>Faster access to live content</li>
+        <li>Personalized sorting by teams</li>
+        <li>Reduced friction vs. switching apps</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h3>BUSINESS VALUE</h3>
+      <ul class="small" style="margin:0; padding-left:18px;">
+        <li>Higher session frequency</li>
+        <li>Increased feature discovery</li>
+        <li>Clear upgrade paths to premium tiers</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+          <div class="panel">
+            <h3>FILTERS</h3>
+            <div class="filters">
+              <select id="sportFilter">
+                <option value="ALL">All sports</option>
+              </select>
+              <select id="typeFilter">
+                <option value="ALL">All types</option>
+                <option value="LIVE">Live</option>
+                <option value="UPCOMING">Upcoming</option>
+              </select>
+              <button class="btn" id="resetFilters">Reset</button>
+            </div>
+            <div class="small" style="margin-top:10px;">
+              Tip: Build your plan first so this page can prioritize your selected sports.
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:12px;">
+            <h3>TODAY</h3>
+            <div id="scheduleCount" class="small"></div>
+            <div id="games" class="gameList"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="strip"></div>
+        <div class="section">
+          <b style="letter-spacing:.3px;">YOUR PLAN (Preview)</b>
+          <p class="small" style="margin:8px 0 14px;">
+            Updates after you build your plan.
+          </p>
+
+          <div class="panel">
+            <div class="row"><span class="small">Tier</span><span id="miniTier" style="font-weight:1000;">—</span></div>
+            <div class="row"><span class="small">Est. Price</span><span id="miniPrice" style="font-weight:1000;">$0.00</span></div>
+            <div class="div"></div>
+            <div id="miniList" class="small">No sports yet • No teams</div>
+            <div style="height:10px"></div>
+            <button class="btn primary" id="quickStart">Build / Edit Plan</button>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel">
+            <h3>SHORTCUTS</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn" href="teamhub.html">Open Team Hub</a>
+              <a class="btn" href="dashboard.html">Back to Dashboard</a>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="small">*Demo schedule cards — click “Watch” to simulate playing.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>© <span id="yr"></span> MyTeamTV</div>
+      <div class="small">Schedule is demo-only.</div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>SIGN IN</b>
+        <button id="closeLogin" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <form id="loginForm">
+          <div class="field">
+            <label>NAME</label>
+            <input id="loginName" placeholder="Karli" autocomplete="name"/>
+          </div>
+          <div class="field">
+            <label>EMAIL</label>
+            <input id="loginEmail" placeholder="you@email.com" autocomplete="email"/>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="submit">Continue</button>
+          </div>
+          <div class="small" style="margin-top:10px;">Demo sign-in. Stores data in your browser only.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONBOARD MODAL -->
+  <div id="onboardModal" class="modalOverlay">
+    <div class="modal">
+      <div class="strip"></div>
+      <div class="head">
+        <b>BUILD YOUR PLAN</b>
+        <button id="closeOnboard" class="btn">Close</button>
+      </div>
+      <div class="body">
+        <div class="two">
+          <div class="panel">
+            <h3>SPORTS</h3>
+            <div id="sportPills" class="pillrow"></div>
+          </div>
+          <div class="panel">
+            <h3>TEAMS</h3>
+            <div id="teamPills" class="pillrow"></div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel">
+          <div class="tag" id="tierTag">Tier: —</div>
+          <div style="height:10px"></div>
+
+          <div class="priceBox">
+            <div class="small">Estimated monthly price</div>
+            <div class="bigPrice" id="price">$0.00</div>
+            <div class="small" id="priceNote">Select at least 1 sport to start.</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="row"><span>Sports selected</span><span id="sportCount">0</span></div>
+          <div class="row"><span>Teams selected</span><span id="teamCount">0</span></div>
+          <div class="div"></div>
+          <div id="tierDetails" class="small"></div>
+
+          <div class="actions">
+            <button id="savePicks" class="btn primary" type="button">Save Plan</button>
+            <a class="btn" href="dashboard.html">Go to Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("yr").textContent = new Date().getFullYear();
+
+    document.getElementById("authBtn").addEventListener("click", ()=> {
+      document.getElementById("loginModal").style.display = "flex";
+    });
+
+    // Demo schedule dataset
+    const DEMO_GAMES = [
+      { sport:"NFL", type:"UPCOMING", time:"12:00 PM", match:"Cowboys vs Eagles (Demo)", channel:"MyTeamTV Live" },
+      { sport:"NBA", type:"LIVE", time:"7:30 PM", match:"Lakers vs Celtics (Demo)", channel:"MyTeamTV Live" },
+      { sport:"MLB", type:"UPCOMING", time:"6:10 PM", match:"Astros vs Yankees (Demo)", channel:"MyTeamTV Live" },
+      { sport:"NHL", type:"UPCOMING", time:"8:00 PM", match:"Stars vs Avalanche (Demo)", channel:"MyTeamTV Live" },
+      { sport:"College Football", type:"UPCOMING", time:"2:30 PM", match:"Texas A&M vs LSU (Demo)", channel:"MyTeamTV Live" },
+      { sport:"College Basketball", type:"UPCOMING", time:"6:00 PM", match:"Duke vs UNC (Demo)", channel:"MyTeamTV Live" },
+      { sport:"Soccer", type:"LIVE", time:"3:00 PM", match:"Barcelona vs Man United (Demo)", channel:"MyTeamTV Live" },
+      { sport:"Tennis", type:"UPCOMING", time:"10:00 AM", match:"Center Court Match (Demo)", channel:"MyTeamTV Live" }
+    ];
+
+    function getPicks(){
+      return JSON.parse(localStorage.getItem("mtv_picks") || "{\"sports\":[],\"teams\":[]}");
+    }
+
+    function mountFilters(){
+      const picks = getPicks();
+      const sportsSelected = (picks.sports || []);
+      const sportFilter = document.getElementById("sportFilter");
+
+      // Populate dropdown; prioritize selected sports
+      const unique = Array.from(new Set(DEMO_GAMES.map(g=>g.sport)));
+      const ordered = [
+        ...sportsSelected.filter(s => unique.includes(s)),
+        ...unique.filter(s => !sportsSelected.includes(s))
+      ];
+
+      ordered.forEach(s=>{
+        const opt = document.createElement("option");
+        opt.value = s;
+        opt.textContent = s;
+        sportFilter.appendChild(opt);
+      });
+
+      // If they have picks, default filter to "ALL" but we’ll prioritize rendering selected sports first
+    }
+
+    function renderSchedule(){
+      const sportVal = document.getElementById("sportFilter").value;
+      const typeVal = document.getElementById("typeFilter").value;
+
+      const picks = getPicks();
+      const selectedSports = (picks.sports || []);
+
+      let list = DEMO_GAMES.slice();
+
+      // Filter by UI
+      if (sportVal !== "ALL") list = list.filter(g=>g.sport === sportVal);
+      if (typeVal !== "ALL") list = list.filter(g=>g.type === typeVal);
+
+      // If not filtering to one sport, sort to push selected sports to top
+      if (sportVal === "ALL" && selectedSports.length){
+        list.sort((a,b)=>{
+          const aSel = selectedSports.includes(a.sport) ? 0 : 1;
+          const bSel = selectedSports.includes(b.sport) ? 0 : 1;
+          return aSel - bSel;
+        });
+      }
+
+      const wrap = document.getElementById("games");
+      wrap.innerHTML = "";
+
+      document.getElementById("scheduleCount").textContent =
+        `${list.length} game${list.length!==1?"s":""} shown`;
+
+      list.forEach(g=>{
+        const el = document.createElement("div");
+        el.className = "game";
+        el.innerHTML = `
+          <div class="left">
+            <div class="time">${g.time} • <span class="tag">${g.sport}</span></div>
+            <div class="match">${g.match}</div>
+            <div class="meta">${g.type} • ${g.channel}</div>
+          </div>
+          <div class="right">
+            <button class="btn primary">Watch</button>
+            <a class="btn" href="teamhub.html">Team Hub</a>
+          </div>
+        `;
+        el.querySelector(".btn.primary").addEventListener("click", ()=>{
+          alert(`▶️ Playing: ${g.match}\n\n(Demo only — connect to player.html later.)`);
+        });
+        wrap.appendChild(el);
+      });
+
+      if (!list.length){
+        wrap.innerHTML = `<div class="small">No games match your filters.</div>`;
+      }
+    }
+
+    document.getElementById("resetFilters").addEventListener("click", ()=>{
+      document.getElementById("sportFilter").value = "ALL";
+      document.getElementById("typeFilter").value = "ALL";
+      renderSchedule();
+    });
+
+    document.getElementById("sportFilter").addEventListener("change", renderSchedule);
+    document.getElementById("typeFilter").addEventListener("change", renderSchedule);
+
+    mountFilters();
+    renderSchedule();
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>
