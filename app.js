@@ -31,22 +31,22 @@ function computePrice(sportsCount, teamsCount){
 
   // Price tiers aligned to current consumer expectations (roughly: ~$13, ~$25, ~$35, ~$45)
   if (sportsCount === 1){
-    base = 12.99; tier = "Basic Fan"; includedTeams = 2; perTeam = 2.50;
+    base = 9.99; tier = "Basic Fan"; includedTeams = 2; perTeam = 2.50;
   } else if (sportsCount <= 2){
     base = 24.99; tier = "Team Pass"; includedTeams = 5; perTeam = 2.00;
   } else if (sportsCount <= 4){
     base = 34.99; tier = "All-Star"; includedTeams = 10; perTeam = 1.50;
   } else {
-    base = 39.99; tier = "Super Fan"; includedTeams = 12; perTeam = 1.25;
+    base = 49.99; tier = "Super Fan"; includedTeams = 12; perTeam = 1.25;
   }
 
   const extraTeams = Math.max(0, teamsCount - includedTeams);
   let price = base + extraTeams * perTeam;
 
-  const shouldUnlimited = (sportsCount >= 6) || (teamsCount >= 15) || (price > 44.99);
+  const shouldUnlimited = (sportsCount >= 6) || (teamsCount >= 15) || (price > 49.99);
   if (shouldUnlimited){
     return {
-      price: 44.99,
+      price: 49.99,
       tier: "Unlimited Access",
       note: "You’re on Unlimited — everything included.",
       details: "Unlimited includes all sports + teams, plus premium features like multi-game view and full replays."
