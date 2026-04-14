@@ -290,3 +290,12 @@ function init(){
 }
 
 document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", () => {
+  const watchBtn = document.getElementById("watchFubo");
+
+  if (watchBtn) {
+    watchBtn.addEventListener("click", () => {
+      alert("Launching stream via fubo integration...");
+    });
+  }
+});
